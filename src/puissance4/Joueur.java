@@ -19,7 +19,7 @@ public class Joueur {
     public Joueur(String unNom){  
         Nom = unNom;
         nombreDesintegrateurs = 0;
-        nombreJetonsRestants = 0;
+        nombreJetonsRestants = 21;
     }
     
     public void affecterCouleur(String uneCouleur){

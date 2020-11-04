@@ -12,7 +12,7 @@ package puissance4;
 public class Grille {
     Cellule cellules [][] = new Cellule [6][7];
     
-    public boolean ajouterJetonDansColonne(Jeton jetonCourant, int indColonne){ 
+    public boolean ajouterJetonDansColonne(Joueur joueurCourant, int indColonne){ 
       if (colonneRemplie(indColonne)){
         return false;
       }
@@ -20,6 +20,16 @@ public class Grille {
         int i=5;
         while(cellules[i][indColonne].jetonCourant != null){
             i--;
+            joueurCourant.nombreJetonsRestants --;
+        }
+        if(cellules[5][indColonne].presenceTrouNoir()){
+            cellules[5][indColonne].activerTrouNoir();
+            joueurCourant.nombreJetonsRestants --;
+        }
+        if(cellules[5][indColonne].presenceDesintegrateur()){
+            cellules[5][indColonne].recupererDesintegrateur();
+            joueurCourant.nombreDesintegrateurs ++;
+            joueurCourant.nombreJetonsRestants --;
         }
         return true;   
       }
@@ -48,6 +58,11 @@ public class Grille {
     }
     
     public void afficherGrilleSurConsole(){
+        for(int i=0; i<5; i++){
+            for(int j=0; j<6; j++){
+               // cellules[i][j] = ;
+            }
+        }
         
     }
     
@@ -64,16 +79,31 @@ public class Grille {
     }
     
     public boolean etreGagnantePourJoueur(Joueur joueurCourant){
-        int indColonne;
-        int indLigne;
         boolean result=true;
-        for(int i=0; i<5; i++){
-            for(int j=0; j<cellules.length; j++){
-                if (cellules[i][j].jetonCourant!=null || cellules[i][indColonne].jetonCourant!=null || cellules[indLigne][j].jetonCourant!=null){
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                if (lireCouleurDuJeton(i,j)==joueurCourant.Couleur && lireCouleurDuJeton(i+1,j+1)==joueurCourant.Couleur && lireCouleurDuJeton(i+2,j+2)==joueurCourant.Couleur && lireCouleurDuJeton(i+3,j+3)==joueurCourant.Couleur){
                     result = true;
-                }
-            }
-        }
+                    System.out.println(joueurCourant+" est le gagnant!");
+                }}}
+        for(int i=0; i<3; i++){
+            for(int j=0; j<7; j++){
+                if (lireCouleurDuJeton(i,j)==joueurCourant.Couleur && lireCouleurDuJeton(i+1,j)==joueurCourant.Couleur && lireCouleurDuJeton(i+2,j)==joueurCourant.Couleur && lireCouleurDuJeton(i+3,j)==joueurCourant.Couleur){
+                    result = true;
+                    System.out.println(joueurCourant+" est le gagnant!");
+                }}}
+        for(int i=0; i<7; i++){
+            for(int j=0; j<4; j++){
+                if(lireCouleurDuJeton(i,j)==joueurCourant.Couleur && lireCouleurDuJeton(i,j+1)==joueurCourant.Couleur && lireCouleurDuJeton(i,j+2)==joueurCourant.Couleur && lireCouleurDuJeton(i,j+3)==joueurCourant.Couleur){
+                    result = true;
+                    System.out.println(joueurCourant+" est le gagnant!");
+                }}}
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                if (lireCouleurDuJeton(i,j)==joueurCourant.Couleur && lireCouleurDuJeton(i-1,j-1)==joueurCourant.Couleur && lireCouleurDuJeton(i-2,j-2)==joueurCourant.Couleur && lireCouleurDuJeton(i-3,j-3)==joueurCourant.Couleur){
+                    result = true;
+                    System.out.println(joueurCourant+" est le gagnant!");
+                }}}
         return result;
     }
     
