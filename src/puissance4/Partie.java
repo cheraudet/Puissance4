@@ -12,7 +12,7 @@ package puissance4;
 public class Partie {
     Joueur ListeJoueurs [] = new Joueur [2];
     Grille grilleJeu = new Grille();
-    Joueur joueurCourant = new Joueur();
+    Joueur joueurCourant;
     
     public void initialiserPartie(){
       grilleJeu.viderGrille();
