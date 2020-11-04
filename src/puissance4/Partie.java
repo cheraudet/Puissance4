@@ -18,7 +18,7 @@ public class Partie {
       grilleJeu.viderGrille();
       
       Scanner sc = new Scanner(System.in);
-      System.out.println("JPseudo joueur1 : ");
+      System.out.println("Pseudo joueur1 : ");
       Joueur joueur1 = new Joueur(sc.nextLine());
       System.out.println("Pseudo joueur2 : ");
       Joueur joueur2 = new Joueur(sc.nextLine());
@@ -35,15 +35,7 @@ public class Partie {
     }
     
     public void attribuerCouleursAuxJoueurs(){
-        //Random r = new Random();
-        //boolean couleur;
-        //couleur = r.nextBoolean();
-        //if(couleur){
             ListeJoueurs[0].Couleur = "Rouge";
             ListeJoueurs[1].Couleur = "Jaune";
-        //} else {
-            //ListeJoueurs[0].Couleur = "Jaune";
-            //ListeJoueurs[1].Couleur = "Rouge";
-        //}
     }
 }
