@@ -30,6 +30,14 @@ public class Partie {
       System.out.println(joueur2.Nom + " a la couleur "+joueur2.Couleur);
       
       grilleJeu.afficherGrilleSurConsole();
+      
+      String couleurJeton1 = joueur1.Couleur;
+      Jeton jetonJ1 = new Jeton(couleurJeton1);
+      joueur1.ajouterJeton(jetonJ1);
+      
+      String couleurJeton2 = joueur2.Couleur;
+      Jeton jetonJ2 = new Jeton(couleurJeton2);
+      joueur1.ajouterJeton(jetonJ2);
     }
     
     public void debuterPartie(){
@@ -50,12 +58,13 @@ public class Partie {
                 indColonne = sc.nextInt();
                 grilleJeu.ajouterJetonDansColonne(joueurCourant, indColonne);
             }
-            if(choixJoueur == 2){
+            if(choixJoueur == 2 && joueurCourant.nombreDesintegrateurs != 0){
                 System.out.println("Dans quelle colonne voulez vous placer votre désintégrateur?");
                 indColonne = sc.nextInt();
                 System.out.println("Dans quelle ligne voulez vous placer votre désintégrateur?");
                 indLigne = sc.nextInt();
                 grilleJeu.placerDesintegrateur(indLigne, indColonne);
+                joueurCourant.utiliserDesintegrateur();
                 joueurCourant.nombreDesintegrateurs --;
             }
             if(choixJoueur == 3){
@@ -64,7 +73,11 @@ public class Partie {
                 System.out.println("Dans quelle ligne voulez vous récupérer votre jeton?");
                 indLigne = sc.nextInt();
                 grilleJeu.recupererJeton(indLigne, indColonne);
+                grilleJeu.tasserGrille(indLigne, indColonne);
                 joueurCourant.nombreJetonsRestants++;
+            }
+            if(choixJoueur == 2 && joueurCourant.nombreDesintegrateurs == 0){
+                System.out.println("Attention, vous n'avez pas de désintégrateur !");
             }
         }
     }
@@ -72,5 +85,11 @@ public class Partie {
     public void attribuerCouleursAuxJoueurs(){
             ListeJoueurs[0].Couleur = "Rouge";
             ListeJoueurs[1].Couleur = "Jaune";
+    }
+    
+    public void tourJoueur(){
+        if(ListeJoueurs[0]==joueurCourant){
+            
+        }
     }
 }

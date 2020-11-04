@@ -60,10 +60,22 @@ public class Grille {
     public void afficherGrilleSurConsole(){
         for(int i=0; i<5; i++){
             for(int j=0; j<6; j++){
-               // cellules[i][j] = ;
-            }
-        }
-        
+               System.out.ln(cellules[i][j]+"V");
+               if(cellules[i][j].jetonCourant == jetonCourant){
+                   if(cellules[i][j].jetonCourant.Couleur == "Rouge"){
+                       System.out.println(cellules[i][j]+"R");
+                   }
+                   if(cellules[i][j].jetonCourant.Couleur == "Jaune"){
+                       System.out.println(cellules[i][j]+"J");
+                   }
+               if(cellules[i][j].presenceDesintegrateur()){
+                   System.out.println(cellules[i][j]+"D");
+               }
+               if(cellules[i][j].presenceTrouNoir()){
+                   System.out.println(cellules[i][j]+"T");
+               }
+               }
+            }}
     }
     
     public boolean celluleOccupee(int indLigne, int indColonne){
