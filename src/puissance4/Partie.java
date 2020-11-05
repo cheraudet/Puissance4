@@ -5,6 +5,9 @@
  */
 package puissance4;
 
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  *
  * @author rfougero
@@ -38,6 +41,33 @@ public class Partie {
       String couleurJeton2 = joueur2.Couleur;
       Jeton jetonJ2 = new Jeton(couleurJeton2);
       joueur1.ajouterJeton(jetonJ2);
+      
+      Random r = new Random();
+      boolean premierJoueur = r.nextBoolean();
+      if (premierJoueur==true){
+          joueurCourant = ListeJoueurs[0];
+      }else{
+          joueurCourant = ListeJoueurs[1];
+      }
+      //positionnement des 5 trous noirs aléatoires
+      Random rt = new Random();
+      int nb1 = rt.nextInt(6);
+      int nb2 = rt.nextInt(7);
+      int i=0;
+      while(i<=5){
+          grilleJeu.placerTrouNoir(nb1, nb2);
+          i++;
+      }
+      
+      //positionnement des 3 désintégrateurs seuls
+      Random rd = new Random();
+      int nb3 = rd.nextInt(6);
+      int nb4 = rd.nextInt(7);
+      int j=0;
+      while(j<=3){
+          grilleJeu.placerDesintegrateur(nb3, nb4);
+          j++;
+      }
     }
     
     public void debuterPartie(){
@@ -79,17 +109,39 @@ public class Partie {
             if(choixJoueur == 2 && joueurCourant.nombreDesintegrateurs == 0){
                 System.out.println("Attention, vous n'avez pas de désintégrateur !");
             }
+            tourJoueur();
+        }
+        if (grilleJeu.etreGagnantePourJoueur(joueurCourant)){
+            if (joueurCourant == ListeJoueurs[0]){
+                System.out.println(ListeJoueurs[0]+" est le gagnant ! Bravo!");
+            }
+            if (joueurCourant == ListeJoueurs[1]){
+                System.out.println(ListeJoueurs[1]+" est le gagnant ! Bravo!");
+            }}
+        if (grilleJeu.etreRemplie()){
+            System.out.println("Match nul! Recommencez une partie!");
         }
     }
     
     public void attribuerCouleursAuxJoueurs(){
+        Random r = new Random();
+        boolean couleurJoueurs = r.nextBoolean();
+        if(couleurJoueurs){
             ListeJoueurs[0].Couleur = "Rouge";
             ListeJoueurs[1].Couleur = "Jaune";
+        }else{
+            ListeJoueurs[1].Couleur = "Rouge";
+            ListeJoueurs[0].Couleur = "Jaune";
+        }
     }
     
     public void tourJoueur(){
         if(ListeJoueurs[0]==joueurCourant){
-            
+            joueurCourant = ListeJoueurs[1];
+            System.out.println("A vous de jouer! "+"Il vous reste: "+ ListeJoueurs[1].nombreJetonsRestants+" jetons, et "+ListeJoueurs[1].nombreDesintegrateurs+" désintégrateurs");
+        } else {
+            joueurCourant = ListeJoueurs[0];
+            System.out.println("A vous de jouer! "+"Il vous reste: "+ ListeJoueurs[0].nombreJetonsRestants+" jetons, et "+ListeJoueurs[0].nombreDesintegrateurs+" désintégrateurs");
         }
     }
 }
