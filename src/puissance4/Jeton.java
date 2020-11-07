@@ -9,15 +9,16 @@ package puissance4;
  *
  * @author rfougero
  */
-public class Jeton {
+public class Jeton { 
+    //creation de l'attribut de la classe jeton
     String Couleur;
     
-    public Jeton (String uneCouleur){
+    public Jeton (String uneCouleur){ // creation du constructeur qui initialise la couleur du jeton
         Couleur = uneCouleur;
     }
     
-    public String lireCouleur(){
-        return Couleur;
+    public String lireCouleur(){ //creation de la methode permettant de lire la couleur du jeton
+        return Couleur; 
     }
     
     /*
