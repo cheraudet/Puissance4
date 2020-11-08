@@ -20,7 +20,7 @@ public class Joueur {
     public Joueur(String unNom){ //creation du constructeur qui initialise le nom du joueur
         Nom = unNom;
         nombreDesintegrateurs = 0;
-        nombreJetonsRestants = 21;
+        nombreJetonsRestants = 0;
     }
     
     public void affecterCouleur(String uneCouleur){ //creation de la méthode pour affecter une couleur a un joueur
@@ -32,6 +32,10 @@ public class Joueur {
         return true; //retourne vrai quand le jeton est ajouté
     }
     
+    public boolean enleverJeton(Jeton unJeton){
+        ListeJetons [nombreJetonsRestants--] = unJeton; //creation de la methode qui enleve le jeton en parametre a la liste des jetons
+        return true; //retourne vrai quand le jeton est enlevé
+    }
     
     public void obtenirDesintegrateur(){ //creation de la methode qui incrémente le nb de désintegrateurs du joueur
         nombreDesintegrateurs ++;

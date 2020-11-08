@@ -20,14 +20,5 @@ public class Jeton {
     public String lireCouleur(){ //creation de la methode permettant de lire la couleur du jeton
         return Couleur; 
     }
-    
-    /*
-    @Override
-    public String toString(){
-        if("rouge".equals(Couleur)){
-            return "\u001B[31m 0 ";
-        }
-        return "\u001B[33m 0 ";
-    }
-    */
+   
 }

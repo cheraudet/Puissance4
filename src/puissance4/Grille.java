@@ -18,17 +18,23 @@ public class Grille {
         return false; //donc on retourne faux 
       }
       else{ //si ce n'est pas le cas :
+        //Jeton unJeton = joueurCourant.ListeJetons; //je voulais definir le jeton unJeton comme etant un jeton de la liste des jetons du joueur mais je n'ai pas réussi
+        Jeton unJeton = new Jeton(joueurCourant.Couleur); //on definit et initialise la variable jeton
         int i=5;
         while(cellules[i][indColonne].jetonCourant != null){ //on teste tant que la cellule n'est pas vide 
             i--; //on passe à la cellule du dessus 
-            joueurCourant.nombreJetonsRestants --; //on decremente le nb de jetons du joueur
         }
-        if(cellules[5][indColonne].presenceTrouNoir()){ //test si un trou noir est présent 
-            cellules[5][indColonne].activerTrouNoir(); //si c'est le cas, on l'active
+        if(cellules[i][indColonne].jetonCourant == null){ //test si la cellule est vide  
+            joueurCourant.enleverJeton(unJeton); //si c'est le cas, on enleve un jeton au joueur
+            cellules[i][indColonne].jetonCourant = unJeton; //on ajoute le jeton enlevé dans la cellule 
             joueurCourant.nombreJetonsRestants --; //et on decremente le nb de jetons du joueur
         }
-        if(cellules[5][indColonne].presenceDesintegrateur()){ //test si un desintegrateur est present 
-            cellules[5][indColonne].recupererDesintegrateur(); //si c'est le cas, on le recupere 
+        if(cellules[i][indColonne].presenceTrouNoir()){ //test si un trou noir est présent 
+            cellules[i][indColonne].activerTrouNoir(); //si c'est le cas, on l'active
+            joueurCourant.nombreJetonsRestants --; //et on decremente le nb de jetons du joueur
+        }
+        if(cellules[i][indColonne].presenceDesintegrateur()){ //test si un desintegrateur est present 
+            cellules[i][indColonne].recupererDesintegrateur(); //si c'est le cas, on le recupere 
             joueurCourant.nombreDesintegrateurs ++; //on incrémente le nb de desintegrateurs du joueur 
             joueurCourant.nombreJetonsRestants --; //et on decremente le nb de jetons du joueur
         }
@@ -62,23 +68,29 @@ public class Grille {
         for(int i=0; i<6; i++){ //boucle pour parcourir les lignes
             for(int j=0; j<7; j++){ //boucle pour parcourir les colonnes
                if(cellules[i][j] == null){ //si la cellule est vide 
-                   System.out.println("V"); //alors on affiche V pour vide 
+                   System.out.print("V"); //alors on affiche V pour vide 
                }
-               if(cellules[i][j].jetonCourant != null){ //si la cellule possede un jeton 
+               else if(cellules[i][j].jetonCourant != null){ // sinon si la cellule possede un jeton 
                    if(cellules[i][j].jetonCourant.Couleur == "Rouge"){ //si le jeton est rouge 
-                       System.out.println("R"); //on afiche R pour rouge 
+                       System.out.print("R"); //on afiche R pour rouge 
                    }
-                   if(cellules[i][j].jetonCourant.Couleur == "Jaune"){ //si le jeton est jaune 
-                       System.out.println("J"); //on affiche J pour jaune 
+                   else if(cellules[i][j].jetonCourant.Couleur == "Jaune"){ //sinon si le jeton est jaune 
+                       System.out.print("J"); //on affiche J pour jaune 
                    }
-               if(cellules[i][j].presenceDesintegrateur()){ //la cellule possede un desintegrateur 
-                   System.out.println("D"); //on affiche D pour desintegrateur 
+                }
+               else if(cellules[i][j].placerTrouNoir() && cellules[i][j].presenceDesintegrateur()){ //sinon si la cellule possede un desintegrateur et un trou noir 
+                   System.out.print("T"); //on affiche T pour trou noir, les desintegrateurs sont donc invisibles 
                }
-               if(cellules[i][j].presenceTrouNoir()){ //si la cellule possede un trou noir 
-                   System.out.println("T"); //on affiche T pour trou noir 
+               else if(cellules[i][j].presenceDesintegrateur() && cellules[i][j].placerTrouNoir()==false){ //sinon si la cellule possede un desintegrateur 
+                   System.out.print("D"); //on affiche D pour desintegrateur 
                }
+               else if(cellules[i][j].presenceTrouNoir() && cellules[i][j].presenceDesintegrateur()==false){ //sinon si la cellule possede un trou noir 
+                   System.out.print("T"); //on affiche T pour trou noir 
                }
-            }}
+               System.out.print(" ");//affiche un espace entre chaque colonne
+            }
+            System.out.println(" ");//affiche un espace entre chaque ligne 
+        }
     }
     
     public boolean celluleOccupee(int indLigne, int indColonne){ //creation de la methode qui permet de savoir si la cellule est occupée 
@@ -122,10 +134,10 @@ public class Grille {
         return result;
     }
     
-    public void  tasserGrille(int indLigne, int indColonne){ //creation de la methode 
-        if (cellules[indLigne][indColonne].jetonCourant == null){ //test la presence d'un jeton dans la cellule 
-            for(int i=5; i>0; i--){ //si ce n'est pas le cas, on tasse la colonne 
-                cellules[i][indColonne] = cellules[i--][indColonne];
+    public void  tasserGrille(int indColonne){ //creation de la methode qui permet de tasser la grille 
+        for(int i=5; i>0; i--){ //boucle qui parcourt les lignes  
+            if (cellules[i][indColonne].jetonCourant == null){ //test la presence d'un jeton dans la cellule
+                cellules[i][indColonne] = cellules[i--][indColonne]; //si il n'y a plus de jeons, on tase la grille 
             }
         } 
     }
@@ -140,7 +152,7 @@ public class Grille {
     
     public boolean placerDesintegrateur(int indLigne, int indColonne){ //creation de la methode qui permet d'ajouter un desintegrateur 
         boolean desint;
-        if(cellules[indLigne][indColonne].desintegrateur==false){ //test la presence d'un desintegrateur 
+        if(cellules[indLigne][indColonne].presenceDesintegrateur()==false){ //test la presence d'un desintegrateur 
             cellules[indLigne][indColonne].desintegrateur = true; //si il n'y en a pas, on en ajoute un
             desint = true; //renvoie vrai si desintegrateur bien ajouté
         } else{ desint = false; } //sinon renvoie faux 
@@ -149,7 +161,7 @@ public class Grille {
     
     public boolean placerTrouNoir(int indLigne, int indColonne){ //creation de la methode qui permet d'ajouter un trou noir 
         boolean tn;
-        if(cellules[indLigne][indColonne].trouNoir==false){ //test la presence d'un trou noir 
+        if(cellules[indLigne][indColonne].presenceTrouNoir()==false){ //test la presence d'un trou noir 
             cellules[indLigne][indColonne].trouNoir = true; //si il n'y en a pas, on en ajoute un
             tn = true; //renvoie vrai si trou noir bien ajouté
         } else{ tn = false; } //sinon renvoie faux 

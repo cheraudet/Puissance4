@@ -31,9 +31,7 @@ public class Partie {
       
       attribuerCouleursAuxJoueurs(); //on appelle la methode qui attribue une couleru a chaque joueur
       System.out.println(joueur1.Nom + " a la couleur "+joueur1.Couleur); //on annonce la couleur du joueur 1
-      System.out.println(joueur2.Nom + " a la couleur "+joueur2.Couleur); //on annonce la couleur du joueur 2
-      
-      grilleJeu.afficherGrilleSurConsole(); //affichage de la grille 
+      System.out.println(joueur2.Nom + " a la couleur "+joueur2.Couleur); //on annonce la couleur du joueur 2 
       
       //on attribue la couleur des jetons en fonction de celle du joueur 
       String couleurJeton1 = joueur1.Couleur; 
@@ -49,8 +47,10 @@ public class Partie {
       boolean premierJoueur = r.nextBoolean();
       if (premierJoueur==true){
           joueurCourant = ListeJoueurs[0];
+          System.out.println(joueur1.Nom+" vous commencez la partie !");
       }else{
           joueurCourant = ListeJoueurs[1];
+          System.out.println(joueur2.Nom+" vous commencez la partie !");
       }
       
       //positionnement aléatoire des 5 trous noirs aléatoires
@@ -77,7 +77,7 @@ public class Partie {
           grilleJeu.placerDesintegrateur(nb3, nb4);
           j++;
       }
-      
+      grilleJeu.afficherGrilleSurConsole(); //affichage de la grille
     }
     
     public void debuterPartie(){ //creation de la methode qui lance la partie 
@@ -99,6 +99,7 @@ public class Partie {
                 System.out.println("Dans quelle colonne voulez vous ajouter votre jeton?"); //on lui demande la position qu'il souhaite pour son jeton 
                 indColonne = sc.nextInt();
                 grilleJeu.ajouterJetonDansColonne(joueurCourant, indColonne); //on ajoute le jeton dans la colonne souhaité 
+                grilleJeu.etreGagnantePourJoueur(joueurCourant); //on teste si 4 jetons sont alignés 
             }
             if(choixJoueur == 2 && joueurCourant.nombreDesintegrateurs != 0){ //si le joueur veut utiliser un desitegrateur 
                 //on lui demande la position qu'il souhaite pour placer son desintegrateur 
@@ -109,6 +110,7 @@ public class Partie {
                 grilleJeu.placerDesintegrateur(indLigne, indColonne); //placement du desintegrateur a la position souaitée
                 joueurCourant.utiliserDesintegrateur(); 
                 joueurCourant.nombreDesintegrateurs --; //décrémentation du nombre de désintegrateur du joueur
+                grilleJeu.etreGagnantePourJoueur(joueurCourant); //on teste si 4 jetons sont alignés
             }
             if(choixJoueur == 3){ //si le joueur veut recuperer un jeton 
                 //on lui demande la position du jeton 
@@ -117,8 +119,9 @@ public class Partie {
                 System.out.println("Dans quelle ligne voulez vous récupérer votre jeton?");
                 indLigne = sc.nextInt();
                 grilleJeu.recupererJeton(indLigne, indColonne); //recuperation du jeton souhaité 
-                grilleJeu.tasserGrille(indLigne, indColonne); //tassement de la grille
+                grilleJeu.tasserGrille(indColonne); //tassement de la grille
                 joueurCourant.nombreJetonsRestants++; //incrémentation du nombre de jetons du joueur 
+                grilleJeu.etreGagnantePourJoueur(joueurCourant); //on teste si 4 jetons sont alignés
             }
             if(choixJoueur == 2 && joueurCourant.nombreDesintegrateurs == 0){ //si le joueur veut utiliser un desintegrateur mais qu'il n'en possede pas 
                 System.out.println("Attention, vous n'avez pas de désintégrateur !"); //affichage d'un message d'erreur 

@@ -21,13 +21,13 @@ public class Cellule {
         desintegrateur = false;
     }
     
-    public boolean affecterJeton(Jeton nouveauJeton){ //creation de la methode qui ajoute le jeton en paramètre à la cellule
+    public boolean affecterJeton(Jeton unJeton){ //creation de la methode qui ajoute le jeton en paramètre à la cellule
         boolean a;
         if (jetonCourant != null){ //test si il y a deja un jeton dans la cellule 
             a=false; //retourne faux 
         }
         else{ //sinon ajoute le jeton et retourne vrai si il a bien été ajouté
-            jetonCourant = nouveauJeton;
+            jetonCourant = unJeton;
             a = true;
         }
         return a;
